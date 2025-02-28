@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity, Text } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 
 import Button from '../ui/Button';
-import Input from './Input';
 
 function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
   const [enteredEmail, setEnteredEmail] = useState('');
@@ -46,44 +46,57 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
   return (
     <View style={styles.form}>
       <View>
-      <Input
-  label="Email Address"
-  onUpdateValue={updateInputValueHandler.bind(this, 'email')}
-  value={enteredEmail}
-  keyboardType="email-address"
- 
-/>
+        {/* Afficher "Hello" */}
+        <Text style={styles.helloText}>Hello</Text>
 
+        {/* Afficher un texte conditionnel sous "Hello" */}
+        <Text style={styles.subText}>
+          {isLogin ? 'Sign in to your account' : 'Sign up to continue'}
+        </Text>
 
-
-      
-        {!isLogin && (
-          <Input
-            label="Confirm Email Address"
-            onUpdateValue={updateInputValueHandler.bind(this, 'confirmEmail')}
-            value={enteredConfirmEmail}
+        <View style={styles.inputContainer}>
+          <FontAwesome name="envelope" size={20} color="gray" style={styles.icon} />
+          <TextInput
+            style={[styles.input, emailIsInvalid && styles.invalidInput]}
+            value={enteredEmail}
+            onChangeText={updateInputValueHandler.bind(this, 'email')}
+            placeholder="Email Address"
             keyboardType="email-address"
-            isInvalid={emailsDontMatch}
           />
-        )}
-        <Input
-          label="Password"
-          onUpdateValue={updateInputValueHandler.bind(this, 'password')}
-          secure
-          value={enteredPassword}
-          isInvalid={passwordIsInvalid}
-        />
+        </View>
         {!isLogin && (
-          <Input
-            label="Confirm Password"
-            onUpdateValue={updateInputValueHandler.bind(
-              this,
-              'confirmPassword'
-            )}
-            secure
-            value={enteredConfirmPassword}
-            isInvalid={passwordsDontMatch}
+          <View style={styles.inputContainer}>
+            <FontAwesome name="envelope" size={20} color="gray" style={styles.icon} />
+            <TextInput
+              style={[styles.input, emailsDontMatch && styles.invalidInput]}
+              value={enteredConfirmEmail}
+              onChangeText={updateInputValueHandler.bind(this, 'confirmEmail')}
+              placeholder="Confirm Email Address"
+              keyboardType="email-address"
+            />
+          </View>
+        )}
+        <View style={styles.inputContainer}>
+          <FontAwesome name="lock" size={20} color="gray" style={styles.icon} />
+          <TextInput
+            style={[styles.input, passwordIsInvalid && styles.invalidInput]}
+            value={enteredPassword}
+            onChangeText={updateInputValueHandler.bind(this, 'password')}
+            placeholder="Password"
+            secureTextEntry
           />
+        </View>
+        {!isLogin && (
+          <View style={styles.inputContainer}>
+            <FontAwesome name="lock" size={20} color="gray" style={styles.icon} />
+            <TextInput
+              style={[styles.input, passwordsDontMatch && styles.invalidInput]}
+              value={enteredConfirmPassword}
+              onChangeText={updateInputValueHandler.bind(this, 'confirmPassword')}
+              placeholder="Confirm Password"
+              secureTextEntry
+            />
+          </View>
         )}
         <View style={styles.buttons}>
           <Button onPress={submitHandler}>
@@ -95,10 +108,47 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
   );
 }
 
-export default AuthForm;
-
 const styles = StyleSheet.create({
+  form: {
+    padding: 16,
+  },
+  helloText: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  subText: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 16,
+    color: 'gray',
+  },
+  inputContainer: {
+    marginBottom: 12,
+    position: 'relative',
+  },
+  input: {
+    width: '100%',
+    paddingLeft: 40,  // Espace pour l'icône
+    paddingVertical: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    fontSize: 16,
+  },
+  invalidInput: {
+    borderColor: 'red',
+  },
+  icon: {
+    position: 'absolute',
+    left: 10,  // Positionnement de l'icône dans le champ
+    top: '50%',
+    transform: [{ translateY: -10 }],
+  },
   buttons: {
     marginTop: 12,
   },
 });
+
+export default AuthForm;

@@ -13,8 +13,7 @@ function AuthStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: Colors.primary500 },
-        headerTintColor: 'white',
+        headerShown: false, // Enlever le header pour tous les écrans de ce stack
         contentStyle: { backgroundColor: Colors.primary100 },
       }}
     >
@@ -28,8 +27,7 @@ function AuthenticatedStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: Colors.primary500 },
-        headerTintColor: 'white',
+        headerShown: false, // Enlever le header pour tous les écrans de ce stack
         contentStyle: { backgroundColor: Colors.primary100 },
       }}
     >
